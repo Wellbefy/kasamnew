@@ -30,14 +30,12 @@ class Home extends Component{
         return {
             defaultItem: 0,
             currentItem: 0,
-            lastValue: 0,
         };
     }
 
     slidingComplete(itemSelected) {
         this.setState({ currentItem : itemSelected});
         console.log("slidingComplete");
-        console.log("array values working", this.arrayValue);
         console.log("item selected " + this.refs.slider.state.item);
         console.log("item selected(from callback)" + itemSelected);
         console.log("value " + this.sliderOptions[this.refs.slider.state.item].value);

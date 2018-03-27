@@ -1,11 +1,13 @@
-import {observable, autorun} from 'mobx';
-import Home from '/Users/Mido/tuff/tuffOne/Screens/Home.js'
+/* @flow */
+import {observable, autorun, action } from 'mobx';
 
 class store {
-    @observable all = [
-        {value1: ' ' }
-        ];
+    @observable all = {
+        valueArray: [1 , 2 , 3, 4 ,5 ,6]
+        };
+
 }
+
 export default new store();
 autorun(() => {
     console.log(store.all)

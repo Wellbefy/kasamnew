@@ -5,8 +5,12 @@ import {
     Text,
     View,
     TouchableHighlight,
+    AsyncStorage,
+    Dimensions,
+    TouchableOpacity
 } from 'react-native';
 import {Fonts} from "../Fonts";
+import {data,count} from "./store";
 
 class two extends Component{
     sliderOptions = [
@@ -15,15 +19,15 @@ class two extends Component{
         {value: 3, label: '3'},
         {value: 4, label: '4'},
         {value: 5, label: '5'},
-        {value: 6, label: '6',}
+        {value: 6, label: '6'}
     ];
 
     constructor(props) {
         super(props);
         this.state = this.getInitialState();
         this.slidingComplete = this.slidingComplete.bind(this);
-    }
 
+    }
     getInitialState() {
         return {
             defaultItem: 0,
@@ -37,126 +41,121 @@ class two extends Component{
         console.log("item selected " + this.refs.slider.state.item);
         console.log("item selected(from callback)" + itemSelected);
         console.log("value " + this.sliderOptions[this.refs.slider.state.item].value);
-        console.log("we do it =" + this.state.currentItem);
+        data[1] = this.sliderOptions[this.refs.slider.state.item].value ;
+        data.push() ;
+        console.log(data);
     }
+
+
     static navigationOptions = {
-        title: 'Question1',
-    };
+        title: 'Fråga 2',
+    }
+
 
     render() {
         const { currentItem } = this.state;
-        const itemArray = [this.state.currentItem];
+
+
         return <View style={styles.container}>
-            <View style={styles.rectangle}>
-                <Text style={styles.welcome}>
-                    2. Livet är .....
-                </Text>
-            </View>
+
+            <Text style={styles.welcome}>
+                1. När du talar med människor, har du då en känsla av att de inte förstår dig ?
+            </Text>
 
             <SnapSlider
-                ref="slider" containerStyle={styles.snapsliderContainer} style={styles.snapslider}
-                itemWrapperStyle={styles.snapsliderItemWrapper}
-                itemStyle={styles.snapsliderItem}
+                ref="slider"
+                containerStyle={styles.snapsliderContainer}
                 items={this.sliderOptions}
                 labelPosition="bottom"
                 defaultItem={this.state.defaultItem}
                 onSlidingComplete={this.slidingComplete}
-                minimumTrackTintColor='#006064'
+                minimumTrackTintColor='#9BC661'
                 step={0.2}
+                thumbTintColor= 'green'
             />
 
-            <View style={{bottom:40}}>
-                <View style={{top:5}}>
-                    <TouchableHighlight
-                        onPress={() => this.props.navigation.navigate('result' , {itemId: itemArray})}
-                        underlayColor='transparent'
-                    >
-                        <View style={{backgroundColor: 'green', borderRadius:20, width:220}}>
-                            <Text style={styles.next}>
-                                Next
-                            </Text>
-                        </View>
-                    </TouchableHighlight>
-                </View>
 
-                <View style={{top:15}}>
-                    <TouchableHighlight
-                        onPress={() => this.props.navigation.goBack()}
-                        underlayColor='transparent'
-                    >
-                        <View style={{backgroundColor: 'green', borderRadius:20, width:220}}>
-                            <Text style={styles.next}>
-                                Back
-                            </Text>
-                        </View>
-                    </TouchableHighlight>
-                </View>
+            <View style={{top: 50, flex:1}}>
+                <Text style={styles.choice}>
+                    { this.sliderOptions[currentItem].value === 1 ? 'Har aldrig den känslan ' : ' ' &&
+                    this.sliderOptions[currentItem].value === 6 ? 'Har alltid den känslan' : ' ' }
+                </Text>
             </View>
 
-            <Text style={styles.choice}>
-                { this.sliderOptions[currentItem].value === 1 ? 'Har aldrig den känslan ' : ' ' &&
-                this.sliderOptions[currentItem].value === 6 ? 'Har alltid den känslan' : ' ' }
-            </Text>
+            <View style={{flex:1,bottom:25}}>
+            <View style={{top: 35,flex:1}}>
+                <TouchableOpacity
+                    onPress={() =>
+                        this.props.navigation.navigate('result')}
+                    underlayColor='transparent'
+                >
+                    <View style={styles.viewTouch1}>
+                        <Text style={styles.next}>
+                            Nästa
+                        </Text>
+                    </View>
+                </TouchableOpacity>
+            </View>
+            <View style={{top: 25,flex:1}}>
+                <TouchableOpacity
+                    onPress={() =>
+                        this.props.navigation.goBack()}
+                    underlayColor='transparent'
+                >
+                    <View style={styles.viewTouch2}>
+                        <Text style={styles.next}>
+                            Tillbaka
+                        </Text>
+                    </View>
+                </TouchableOpacity>
+            </View>
+            </View>
 
         </View>
+
     }
 }
-
 const styles = StyleSheet.create({
     container: {
-        flex: 1,
-        justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor: '#aed581'
+        flex:1,
+        backgroundColor:'white',
+        justifyContent:'space-around'
+
     },
     welcome: {
-        fontSize: 27,
-        margin: 10,
-        bottom:-40,
-        fontFamily:Fonts.Raleway,
-        textAlign:'center'
+        fontSize: 30,
+        margin: 20,
+        textAlign:'center',
+        fontFamily: Fonts.Montserrat
     },
-    rectangle:{
-        width: 180 * 2,
-        height: 340,
-        top:10,
-        backgroundColor:'#e1ffb1',
-        borderWidth:1,
-        borderStyle:'solid',
-        borderBottomColor:'#aaa',
-        borderRightColor:'#aaa',
-        borderTopColor:'#ddd',
-        borderLeftColor:'#ddd',
-        borderRadius:15,
-        position:'relative',
-    },
+
     snapsliderContainer: {
         borderWidth: 0,
-        backgroundColor: 'transparent',
-        margin:40,
-        bottom:120
-    },
-    snapslider: {
-        borderWidth: 0
-    },
-    snapsliderItemWrapper: {
-        borderWidth: 0
-    },
-    snapsliderItem: {
-        borderWidth: 0
+        margin:20,
     },
     next: {
-        color: 'white',
+        color: 'black',
         padding: 10,
         fontSize: 20,
         textAlign:'center',
-        fontWeight:'bold',
+        fontFamily:Fonts.Montserrat
     },
     choice: {
         fontSize: 20,
-        fontFamily:Fonts.Raleway,
-        bottom:180,
-        textAlign:'center'
-    }
+        fontFamily:Fonts.Montserrat,
+        textAlign:'center',
+    },
+    viewTouch1: {
+        backgroundColor: '#9BC661',
+        borderRadius:20,
+        width:220,
+
+    },
+    viewTouch2: {
+        backgroundColor: '#9BC661',
+        borderRadius:20,
+        width:220,
+    },
 });
 export default two;
